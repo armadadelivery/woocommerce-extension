@@ -1,0 +1,40 @@
+h1 {
+	background-color: gold;
+}
+
+// Main plugin page styles
+.armada-plugin-links {
+	list-style: none;
+	padding: 0;
+	margin: 20px 0;
+
+	li {
+		margin-bottom: 15px;
+		padding: 15px;
+		background-color: #f8f9fa;
+		border-radius: 4px;
+	}
+
+	.armada-link-description {
+		margin-top: 5px;
+		color: #757575;
+		font-size: 13px;
+	}
+}
+
+// API Settings styles
+.armada-success-message {
+	color: #4ab866;
+	padding: 10px;
+	margin-top: 10px;
+	background-color: #f0f9f1;
+	border-left: 4px solid #4ab866;
+}
+
+.armada-error-message {
+	color: #d94f4f;
+	padding: 10px;
+	margin-top: 10px;
+	background-color: #f9f0f0;
+	border-left: 4px solid #d94f4f;
+}

@@ -19,7 +19,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          path: '.'
+          path: '..'
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -33,26 +33,27 @@ jobs:
         with:
           node-version: '18'
           cache: 'npm'
+          cache-dependency-path: '../package-lock.json'
 
       - name: Install PHP dependencies
-        working-directory: .
+        working-directory: ..
         run: composer install --no-dev --optimize-autoloader
 
       - name: Install JS dependencies
-        working-directory: .
+        working-directory: ..
         run: npm ci
 
       - name: Build assets
-        working-directory: .
+        working-directory: ..
         run: npm run build
 
       - name: Create plugin zip
-        working-directory: .
+        working-directory: ..
         run: npm run plugin-zip
 
       - name: Get version
         id: get_version
-        working-directory: .
+        working-directory: ..
         run: |
           if [[ $GITHUB_REF == refs/tags/v* ]]; then
             echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
@@ -69,7 +70,7 @@ jobs:
           draft: false
           prerelease: false
           files: |
-            ./armada-plugin.zip
+            ../armada-plugin.zip
           body: |
             ## Armada Delivery For WooCommerce v${{ steps.get_version.outputs.VERSION }}
             

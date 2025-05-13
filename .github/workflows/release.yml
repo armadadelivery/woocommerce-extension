@@ -37,25 +37,15 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '22'
           cache: 'npm'
           cache-dependency-path: 'package-lock.json'
-
-      - name: List directory after Node.js setup
-        run: |
-          pwd
-          echo "Current directory after Node.js setup:"
-          ls -la
-          echo "Parent directory after Node.js setup:"
-          ls -la ..
-          echo "Full path contents:"
-          ls -la /home/runner/work/woocommerce-extension/woocommerce-extension
 
       - name: Install PHP dependencies
         run: composer install --no-dev --optimize-autoloader
 
       - name: Install JS dependencies
-        run: npm ci
+        run: npm ci --force
 
       - name: Build assets
         run: npm run build

@@ -37,15 +37,17 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '22'
+          node-version: '18'
           cache: 'npm'
           cache-dependency-path: 'package-lock.json'
 
       - name: Install PHP dependencies
-        run: composer install --no-dev --optimize-autoloader
+        run: |
+          composer update --no-dev --optimize-autoloader
+          composer install --no-dev --optimize-autoloader
 
       - name: Install JS dependencies
-        run: npm install --force
+        run: npm ci
 
       - name: Build assets
         run: npm run build

@@ -21,7 +21,6 @@ if ( ! defined( 'MAIN_PLUGIN_FILE' ) ) {
 	define( 'MAIN_PLUGIN_FILE', __FILE__ );
 }
 
-require_once plugin_dir_path( __FILE__ ) . '/vendor/autoload_packages.php';
 require_once plugin_dir_path( __FILE__ ) . '/includes/admin/setup.php';
 require_once plugin_dir_path( __FILE__ ) . '/includes/admin/api-settings.php';
 require_once plugin_dir_path( __FILE__ ) . '/includes/admin/order-actions.php';

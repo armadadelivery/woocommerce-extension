@@ -66,3 +66,16 @@ This will update the version number in:
 4. Enter the version number (without the 'v' prefix) and click "Run workflow"
 
 For more details, see the [GitHub Workflows README](.github/workflows/README.md).
+
+### Release Package Contents
+
+The release package is optimized for production use and excludes development-only files and directories. The following are excluded from the release package:
+
+- Development configuration files (`.editorconfig`, `.eslintrc.js`, etc.)
+- Source files (`src/` directory - only built files are included)
+- Development tools and dependencies (`node_modules/`, certain `vendor/` directories)
+- Test files and directories (`tests/`, `phpunit/`, `*.test.js`)
+- Version control files (`.git/`, `.github/`)
+- Build process configurations (`.travis.yml`, etc.)
+
+Important files like `composer.json` are kept in the release to maintain transparency and allow for code review and forking. The complete list of exclusions can be found in the `.distignore` file.

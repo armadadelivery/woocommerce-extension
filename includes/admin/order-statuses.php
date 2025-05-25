@@ -33,12 +33,12 @@ class OrderStatuses {
 	 */
 	public function register_shipping_order_status() {
 		register_post_status( 'wc-shipping', array(
-			'label'                     => _x( 'Shipping', 'Order status', 'armada-plugin' ),
+			'label'                     => _x( 'Shipping', 'Order status', 'armada-delivery-for-woocommerce' ),
 			'public'                    => true,
 			'exclude_from_search'       => false,
 			'show_in_admin_all_list'    => true,
 			'show_in_admin_status_list' => true,
-			'label_count'               => _n_noop( 'Shipping <span class="count">(%s)</span>', 'Shipping <span class="count">(%s)</span>', 'armada-plugin' )
+			'label_count'               => _n_noop( 'Shipping <span class="count">(%s)</span>', 'Shipping <span class="count">(%s)</span>', 'armada-delivery-for-woocommerce' )
 		) );
 	}
 
@@ -56,7 +56,7 @@ class OrderStatuses {
 			$new_order_statuses[ $key ] = $status;
 			
 			if ( 'wc-processing' === $key ) {
-				$new_order_statuses['wc-shipping'] = _x( 'Shipping', 'Order status', 'armada-plugin' );
+				$new_order_statuses['wc-shipping'] = _x( 'Shipping', 'Order status', 'armada-delivery-for-woocommerce' );
 			}
 		}
 		

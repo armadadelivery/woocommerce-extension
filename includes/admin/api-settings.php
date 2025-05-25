@@ -26,7 +26,7 @@ class ApiSettings {
 	 */
 	public function enqueue_admin_scripts() {
 		wp_localize_script(
-			'armada-plugin',
+			'armada-delivery-for-woocommerce',
 			'armadaPluginSettings',
 			array(
 				'apiKey' => self::get_api_key(),
@@ -47,7 +47,7 @@ class ApiSettings {
 			'armada_plugin_api_key',
 			array(
 				'type'              => 'string',
-				'description'       => __( 'Armada API Key', 'armada_plugin' ),
+				'description'       => __( 'Armada API Key', 'armada-delivery-for-woocommerce' ),
 				'sanitize_callback' => 'sanitize_text_field',
 				'default'           => '',
 			)
@@ -65,12 +65,12 @@ class ApiSettings {
 			'armada_plugin_api_key',
 			array(
 				'type'              => 'string',
-				'description'       => __( 'Armada API Key', 'armada_plugin' ),
+				'description'       => __( 'Armada API Key', 'armada-delivery-for-woocommerce' ),
 				'sanitize_callback' => 'sanitize_text_field',
 				'show_in_rest'      => array(
 					'schema' => array(
 						'type'        => 'string',
-						'description' => __( 'Armada API Key', 'armada_plugin' ),
+						'description' => __( 'Armada API Key', 'armada-delivery-for-woocommerce' ),
 					),
 				),
 				'default'           => '',
@@ -161,7 +161,7 @@ class ApiSettings {
 		if ( ! $success ) {
 			return new \WP_Error(
 				'armada_api_key_update_failed',
-				__( 'Failed to update API key.', 'armada_plugin' ),
+				__( 'Failed to update API key.', 'armada-delivery-for-woocommerce' ),
 				array( 'status' => 500 )
 			);
 		}
@@ -182,12 +182,12 @@ class ApiSettings {
 	public function ajax_update_api_key() {
 		// Check nonce
 		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'armada_plugin_api_nonce' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Invalid nonce.', 'armada_plugin' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Invalid nonce.', 'armada-delivery-for-woocommerce' ) ) );
 		}
 
 		// Check permissions
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( array( 'message' => __( 'You do not have permission to update the API key.', 'armada_plugin' ) ) );
+			wp_send_json_error( array( 'message' => __( 'You do not have permission to update the API key.', 'armada-delivery-for-woocommerce' ) ) );
 		}
 
 		// Get and sanitize the API key
@@ -197,7 +197,7 @@ class ApiSettings {
 		$success = self::save_api_key( $api_key );
 
 		if ( ! $success ) {
-			wp_send_json_error( array( 'message' => __( 'Failed to update API key.', 'armada_plugin' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Failed to update API key.', 'armada-delivery-for-woocommerce' ) ) );
 		}
 
 		wp_send_json_success( array( 'api_key' => self::get_api_key() ) );

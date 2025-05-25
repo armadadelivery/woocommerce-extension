@@ -41,7 +41,7 @@ const MyExamplePage = () => {
 			}
 		}).catch((error) => {
 			console.error('Error loading API key:', error);
-			setErrorMessage(__('Could not load API key. Please try refreshing the page.', 'armada-plugin'));
+			setErrorMessage(__('Could not load API key. Please try refreshing the page.', 'armada-delivery-for-woocommerce'));
 		});
 	}, []);
 
@@ -96,7 +96,7 @@ const MyExamplePage = () => {
 			console.error('Error saving API key:', error);
 			setIsSaving(false);
 			setSaveStatus('error');
-			setErrorMessage(__('Error saving API key. Please try again.', 'armada-plugin'));
+			setErrorMessage(__('Error saving API key. Please try again.', 'armada-delivery-for-woocommerce'));
 		});
 	};
 	
@@ -105,10 +105,10 @@ const MyExamplePage = () => {
 		<Woo.Section component="article">
 			<Card>
 				<CardHeader>
-					<h2>{__('Armada API Configuration', 'armada-plugin')}</h2>
+					<h2>{__('Armada API Configuration', 'armada-delivery-for-woocommerce')}</h2>
 				</CardHeader>
 				<CardBody>
-					<p>{__('Enter your Armada API key to connect to the Armada service.', 'armada-plugin')}</p>
+					<p>{__('Enter your Armada API key to connect to the Armada service.', 'armada-delivery-for-woocommerce')}</p>
 					
 					{errorMessage && (
 						<Notice status="error" isDismissible={false}>
@@ -117,21 +117,21 @@ const MyExamplePage = () => {
 					)}
 					
 					<TextControl
-						label={__('API Key', 'armada-plugin')}
+						label={__('API Key', 'armada-delivery-for-woocommerce')}
 						value={apiKey}
 						onChange={setApiKey}
-						help={__('You can find your API key in your Armada account dashboard.', 'armada-plugin')}
+						help={__('You can find your API key in your Armada account dashboard.', 'armada-delivery-for-woocommerce')}
 					/>
 					
 					{saveStatus === 'success' && (
 						<Notice status="success" isDismissible={true} onRemove={() => setSaveStatus('')}>
-							{__('API key saved successfully!', 'armada-plugin')}
+							{__('API key saved successfully!', 'armada-delivery-for-woocommerce')}
 						</Notice>
 					)}
 					
 					{saveStatus === 'error' && (
 						<Notice status="error" isDismissible={true} onRemove={() => setSaveStatus('')}>
-							{__('Error saving API key. Please try again.', 'armada-plugin')}
+							{__('Error saving API key. Please try again.', 'armada-delivery-for-woocommerce')}
 						</Notice>
 					)}
 				</CardBody>
@@ -142,7 +142,7 @@ const MyExamplePage = () => {
 						isBusy={isSaving}
 						disabled={isSaving}
 					>
-						{__('Save API Key', 'armada-plugin')}
+						{__('Save API Key', 'armada-delivery-for-woocommerce')}
 					</Button>
 				</CardFooter>
 			</Card>
@@ -156,7 +156,7 @@ addFilter('woocommerce_admin_pages_list', 'armada-plugin', (pages) => {
 	pages.push({
 		container: MyExamplePage,
 		path: '/armada-plugin',
-		breadcrumbs: [__('Armada Plugin', 'armada-plugin')],
+		breadcrumbs: [__('Armada Plugin', 'armada-delivery-for-woocommerce')],
 		navArgs: {
 			id: 'armada_plugin',
 			order: 70,

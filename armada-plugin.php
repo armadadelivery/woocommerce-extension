@@ -1,6 +1,7 @@
 <?php
 /**
  * Plugin Name: Armada Delivery For WooCommerce
+ * Required Plugins: WooCommerce
  * Description: A WooCommerce extension that integrates with Armada Delivery service, allowing merchants to easily ship orders, track deliveries, and manage shipping information.
  * Version: 0.1.0
  * Author: Armada Tech Team
@@ -42,7 +43,7 @@ use ArmadaPlugin\API\ApiClient;
  */
 function armada_plugin_missing_wc_notice() {
 	/* translators: %s WC download URL link. */
-	echo '<div class="error"><p><strong>' . sprintf( esc_html__( 'Armada Plugin requires WooCommerce to be installed and active. You can download %s here.', 'armada_plugin' ), '<a href="https://woo.com/" target="_blank">WooCommerce</a>' ) . '</strong></p></div>';
+	echo '<div class="error"><p><strong>' . sprintf( esc_html__( 'Armada Plugin requires WooCommerce to be installed and active. You can download %s here.', 'armada-delivery-for-woocommerce' ), '<a href="https://woo.com/" target="_blank">WooCommerce</a>' ) . '</strong></p></div>';
 }
 
 register_activation_hook( __FILE__, 'armada_plugin_activate' );
@@ -59,15 +60,15 @@ function armada_plugin_activate() {
 	}
 }
 
-if ( ! class_exists( 'armada_plugin' ) ) :
+if ( ! class_exists( 'Armada_Delivery_For_WooCommerce' ) ) :
 	/**
-	 * The armada_plugin class.
+	 * The Armada_Delivery_For_WooCommerce class.
 	 */
-	class armada_plugin {
+	class Armada_Delivery_For_WooCommerce {
 		/**
 		 * This class instance.
 		 *
-		 * @var \armada_plugin single instance of this class.
+		 * @var \Armada_Delivery_For_WooCommerce single instance of this class.
 		 */
 		private static $instance;
 
@@ -87,14 +88,14 @@ if ( ! class_exists( 'armada_plugin' ) ) :
 		 * Cloning is forbidden.
 		 */
 		public function __clone() {
-			wc_doing_it_wrong( __FUNCTION__, __( 'Cloning is forbidden.', 'armada_plugin' ), $this->version );
+			wc_doing_it_wrong( __FUNCTION__, __( 'Cloning is forbidden.', 'armada-delivery-for-woocommerce' ), $this->version );
 		}
 
 		/**
 		 * Unserializing instances of this class is forbidden.
 		 */
 		public function __wakeup() {
-			wc_doing_it_wrong( __FUNCTION__, __( 'Unserializing instances of this class is forbidden.', 'armada_plugin' ), $this->version );
+			wc_doing_it_wrong( __FUNCTION__, __( 'Unserializing instances of this class is forbidden.', 'armada-delivery-for-woocommerce' ), $this->version );
 		}
 
 		/**
@@ -102,7 +103,7 @@ if ( ! class_exists( 'armada_plugin' ) ) :
 		 *
 		 * Ensures only one instance can be loaded.
 		 *
-		 * @return \armada_plugin
+		 * @return \Armada_Delivery_For_WooCommerce
 		 */
 		public static function instance() {
 
@@ -123,12 +124,12 @@ add_action( 'plugins_loaded', 'armada_plugin_init', 10 );
  * @since 0.1.0
  */
 function armada_plugin_init() {
-	load_plugin_textdomain( 'armada_plugin', false, plugin_basename( dirname( __FILE__ ) ) . '/languages' );
+	load_plugin_textdomain( 'armada-delivery-for-woocommerce', false, plugin_basename( dirname( __FILE__ ) ) . '/languages' );
 
 	if ( ! class_exists( 'WooCommerce' ) ) {
 		add_action( 'admin_notices', 'armada_plugin_missing_wc_notice' );
 		return;
 	}
 
-	armada_plugin::instance();
+	Armada_Delivery_For_WooCommerce::instance();
 }

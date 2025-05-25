@@ -39,7 +39,7 @@ class Setup {
 		$script_url        = plugins_url( $script_path, MAIN_PLUGIN_FILE );
 
 		wp_register_script(
-			'armada-plugin',
+			'armada-delivery-for-woocommerce',
 			$script_url,
 			$script_asset['dependencies'],
 			$script_asset['version'],
@@ -47,15 +47,15 @@ class Setup {
 		);
 
 		wp_register_style(
-			'armada-plugin',
+			'armada-delivery-for-woocommerce',
 			plugins_url( '/build/index.css', MAIN_PLUGIN_FILE ),
 			// Add any dependencies styles may have, such as wp-components.
 			array(),
 			filemtime( dirname( MAIN_PLUGIN_FILE ) . '/build/index.css' )
 		);
 
-		wp_enqueue_script( 'armada-plugin' );
-		wp_enqueue_style( 'armada-plugin' );
+		wp_enqueue_script( 'armada-delivery-for-woocommerce' );
+		wp_enqueue_style( 'armada-delivery-for-woocommerce' );
 	}
 
 	/**
@@ -73,7 +73,7 @@ class Setup {
 		wc_admin_register_page(
 			array(
 				'id'       => 'armada_plugin',
-				'title'    => __( 'Armada Plugin', 'armada_plugin' ),
+				'title'    => __( 'Armada Plugin', 'armada-delivery-for-woocommerce' ),
 				'parent'   => 'woocommerce',
 				'path'     => '/armada-plugin',
 				'nav_args' => array(

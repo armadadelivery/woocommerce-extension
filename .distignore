@@ -1,0 +1,41 @@
+# Development Files
+.editorconfig
+.eslintrc.js
+.gitignore
+.prettierrc.json
+.wp-env.json
+webpack.config.js
+package.json
+package-lock.json
+composer.lock
+.distignore
+
+# Development Directories
+.git
+.github
+node_modules
+src
+
+# Test Directories
+vendor/phpunit
+vendor/phpunit/phpunit/src/TextUI/XmlConfiguration/PHPUnit
+vendor/nikic/php-parser
+
+# Development Tools
+.vscode
+.idea
+.DS_Store
+
+# Test Files
+phpunit.xml
+phpunit.xml.dist
+tests
+*.test.js
+*.spec.js
+
+# Build Process
+.travis.yml
+.gitlab-ci.yml
+.circleci
+.scrutinizer.yml
+.stylelintrc.json

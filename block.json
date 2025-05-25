@@ -5,7 +5,7 @@
 	"version": "0.1.0",
 	"title": "Armada Plugin",
 	"category": "widgets",
-	"textdomain": "armada-plugin",
+	"textdomain": "armada-delivery-for-woocommerce",
 	"editorScript": "file:./build/index.js",
 	"editorStyle": "file:./build/index.css",
 	"style": "file:./build/style-index.css"

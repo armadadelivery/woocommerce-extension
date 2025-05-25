@@ -57,7 +57,7 @@ class OrderActions {
 									<?php
                 } else {
                     ?>
-                    <li class="no-items"><?php esc_html_e( 'There are no notes yet.', 'armada data' ); ?></li>
+                    <li class="no-items"><?php esc_html_e( 'There are no notes yet.', 'armada-delivery-for-woocommerce' ); ?></li>
                     <?php
                 }
                 ?>
@@ -91,7 +91,7 @@ class OrderActions {
 		
 		// Check permissions
 		if (!current_user_can('edit_shop_orders')) {
-			wp_send_json_error(array('message' => __('You do not have permission to edit orders', 'armada-plugin')));
+			wp_send_json_error(array('message' => __('You do not have permission to edit orders', 'armada-delivery-for-woocommerce')));
 			return;
 		}
 		
@@ -99,7 +99,7 @@ class OrderActions {
 		$order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
 		
 		if (!$order_id) {
-			wp_send_json_error(array('message' => __('Invalid order ID', 'armada-plugin')));
+			wp_send_json_error(array('message' => __('Invalid order ID', 'armada-delivery-for-woocommerce')));
 			return;
 		}
 		
@@ -107,7 +107,7 @@ class OrderActions {
 		$order = wc_get_order($order_id);
 		
 		if (!$order) {
-			wp_send_json_error(array('message' => __('Invalid order', 'armada-plugin')));
+			wp_send_json_error(array('message' => __('Invalid order', 'armada-delivery-for-woocommerce')));
 			return;
 		}
 		
@@ -135,7 +135,7 @@ class OrderActions {
 		if ( empty($delivery_code) ) {
 			$actions['armada_send_delivery'] = array(
 				'url'    => wp_nonce_url( admin_url( 'admin.php?action=armada_send_delivery&order_id=' . $order->get_id() ), 'armada_send_delivery' ),
-				'name'   => __( 'Ship', 'armada-plugin' ),
+				'name'   => __( 'Ship', 'armada-delivery-for-woocommerce' ),
 				'action' => 'armada_send_delivery',
 			);
 		}
@@ -151,24 +151,24 @@ class OrderActions {
 	public function process_send_delivery_action() {
 		// Check if we have the required data
 		if ( ! isset( $_GET['order_id'] ) ) {
-			wp_die( esc_html__( 'Order ID is missing', 'armada-plugin' ) );
+			wp_die( esc_html__( 'Order ID is missing', 'armada-delivery-for-woocommerce' ) );
 		}
 
 		// Verify nonce
 		if ( ! isset( $_GET['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ), 'armada_send_delivery' ) ) {
-			wp_die( esc_html__( 'Security check failed', 'armada-plugin' ) );
+			wp_die( esc_html__( 'Security check failed', 'armada-delivery-for-woocommerce' ) );
 		}
 
 		// Check permissions
 		if ( ! current_user_can( 'edit_shop_orders' ) ) {
-			wp_die( esc_html__( 'You do not have permission to edit orders', 'armada-plugin' ) );
+			wp_die( esc_html__( 'You do not have permission to edit orders', 'armada-delivery-for-woocommerce' ) );
 		}
 
 		$order_id = absint( $_GET['order_id'] );
 		$order = wc_get_order( $order_id );
 
 		if ( ! $order ) {
-			wp_die( esc_html__( 'Invalid order', 'armada-plugin' ) );
+			wp_die( esc_html__( 'Invalid order', 'armada-delivery-for-woocommerce' ) );
 		}
 
 		// Get order data
@@ -203,7 +203,7 @@ class OrderActions {
 			error_log('Armada API Error: ' . $response->get_error_message());
 			
 			// Add an order note with the error
-			$order->add_order_note(sprintf(__('Failed to send delivery request to Armada: %s', 'armada-plugin'), $response->get_error_message()));
+			$order->add_order_note(sprintf(__('Failed to send delivery request to Armada: %s', 'armada-delivery-for-woocommerce'), $response->get_error_message()));
 		} else {
 			// Store all relevant delivery information from the API response
 			$order->update_meta_data('_armada_delivery_code', isset($response['code']) ? $response['code'] : '');
@@ -234,22 +234,22 @@ class OrderActions {
 			$order->save();
 			
 			// Change order status to shipping
-			$order->update_status('shipping', __('Order marked as shipping via Armada Plugin.', 'armada-plugin'));
+			$order->update_status('shipping', __('Order marked as shipping via Armada Plugin.', 'armada-delivery-for-woocommerce'));
 			
 			// Add an order note with the delivery details
 			$note = sprintf(
-				__('Delivery request sent via Armada Plugin. Delivery Code: %s', 'armada-plugin'),
+				__('Delivery request sent via Armada Plugin. Delivery Code: %s', 'armada-delivery-for-woocommerce'),
 				isset($response['code']) ? $response['code'] : 'N/A'
 			);
 			
 			// Add tracking link if available
 			if (isset($response['trackingLink']) && !empty($response['trackingLink'])) {
-				$note .= "\n" . sprintf(__('Tracking Link: %s', 'armada-plugin'), $response['trackingLink']);
+				$note .= "\n" . sprintf(__('Tracking Link: %s', 'armada-delivery-for-woocommerce'), $response['trackingLink']);
 			}
 			
 			// Add driver info if available
 			if (isset($response['driver']) && isset($response['driver']['name'])) {
-				$note .= "\n" . sprintf(__('Driver: %s (%s)', 'armada-plugin'), $response['driver']['name'], $response['driver']['phoneNumber']);
+				$note .= "\n" . sprintf(__('Driver: %s (%s)', 'armada-delivery-for-woocommerce'), $response['driver']['name'], $response['driver']['phoneNumber']);
 			}
 			
 			$order->add_order_note($note);

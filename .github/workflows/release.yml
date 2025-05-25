@@ -73,7 +73,7 @@ jobs:
           draft: false
           prerelease: false
           files: |
-            armada-plugin.zip
+            armada-delivery-for-woocommerce.zip
           body: |
             ## Armada Delivery For WooCommerce v${{ steps.get_version.outputs.VERSION }}
             

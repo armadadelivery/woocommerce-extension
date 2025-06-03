@@ -1,6 +1,6 @@
 <?php
 
-namespace ArmadaPlugin\Admin;
+namespace ARMADEFO\Admin;
 
 /**
  * ArmadaPlugin Order Actions Class
@@ -14,22 +14,22 @@ class OrderActions {
 	/**
 	 * API Client instance
 	 *
-	 * @var \ArmadaPlugin\API\ApiClient
+	 * @var \ARMADEFO\API\ApiClient
 	 */
 	private $api_client;
 
 	public function __construct() {
 		// Initialize API client
-		$this->api_client = new \ArmadaPlugin\API\ApiClient();
+		$this->api_client = new \ARMADEFO\API\ApiClient();
 
 		// Add custom order action button
 		add_filter( 'woocommerce_admin_order_actions', array( $this, 'add_send_delivery_order_action' ), 10, 2 );
 		
 		// Handle the custom action
-		add_action( 'admin_action_armada_send_delivery', array( $this, 'process_send_delivery_action' ) );
+		add_action( 'admin_action_armadefo_send_delivery', array( $this, 'process_send_delivery_action' ) );
 		
 		// Add custom CSS for the action button
-		add_action( 'admin_head', array( $this, 'add_order_actions_css' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_styles' ) );
 		
 		add_filter( 'woocommerce_admin_order_preview_get_order_details', array( $this, 'admin_order_preview_add_order_notes_data' ), 10, 2 );
 		add_action( 'woocommerce_admin_order_preview_end', array( $this, 'add_qr_code_to_preview_data' ) );
@@ -46,7 +46,7 @@ class OrderActions {
     ob_start();
 
     ?>
-    <div class="wc-order-preview-order-note-container" style="padding: 20px;">
+    <div class="wc-order-preview-order-note-container">
         <div class="wc-order-preview-custom-note">
 					<ul class="order_notes">
 						<?php
@@ -133,10 +133,10 @@ class OrderActions {
 		
 		// Only show if order is "Processing" and doesn't have a delivery code
 		if ( empty($delivery_code) ) {
-			$actions['armada_send_delivery'] = array(
-				'url'    => wp_nonce_url( admin_url( 'admin.php?action=armada_send_delivery&order_id=' . $order->get_id() ), 'armada_send_delivery' ),
+			$actions['armadefo_send_delivery'] = array(
+				'url'    => wp_nonce_url( admin_url( 'admin.php?action=armadefo_send_delivery&order_id=' . $order->get_id() ), 'armadefo_send_delivery' ),
 				'name'   => __( 'Ship', 'armada-delivery-for-woocommerce' ),
-				'action' => 'armada_send_delivery',
+				'action' => 'armadefo_send_delivery',
 			);
 		}
 
@@ -155,7 +155,7 @@ class OrderActions {
 		}
 
 		// Verify nonce
-		if ( ! isset( $_GET['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ), 'armada_send_delivery' ) ) {
+		if ( ! isset( $_GET['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ), 'armadefo_send_delivery' ) ) {
 			wp_die( esc_html__( 'Security check failed', 'armada-delivery-for-woocommerce' ) );
 		}
 
@@ -261,15 +261,33 @@ class OrderActions {
 	}
 
 	/**
-	 * Add CSS for custom order action button.
+	 * Enqueue admin styles for order actions.
 	 *
+	 * @param string $hook_suffix The current admin page.
 	 * @return void
 	 */
-	public function add_order_actions_css() {
-		echo '<style>
-			.wc-action-button-armada_send_delivery::after { 
+	public function enqueue_admin_styles( $hook_suffix ) {
+		// Only load on WooCommerce order pages
+		if ( ! in_array( $hook_suffix, array( 'edit.php', 'post.php' ), true ) ) {
+			return;
+		}
+		
+		// Check if we're on a WooCommerce order page
+		global $post_type;
+		if ( 'shop_order' !== $post_type ) {
+			return;
+		}
+		
+		// Define the CSS
+		$css = '
+			.wc-action-button-armadefo_send_delivery::after { 
 				font-family: woocommerce !important;  
 				content: "\e01a" !important; 
+			}
+			
+			/* Order preview container styles */
+			.wc-order-preview-order-note-container {
+				padding: 20px;
 			}
 			
 			/* QR Code styles */
@@ -284,6 +302,9 @@ class OrderActions {
 				display: block;
 				margin: 0 auto;
 			}
-		</style>';
+		';
+		
+		// Add inline styles to the admin area
+		wp_add_inline_style( 'woocommerce_admin_styles', $css );
 	}	
 }

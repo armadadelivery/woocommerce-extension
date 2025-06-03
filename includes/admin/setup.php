@@ -1,6 +1,6 @@
 <?php
 
-namespace ArmadaPlugin\Admin;
+namespace ARMADEFO\Admin;
 
 /**
  * ArmadaPlugin Setup Class
@@ -29,14 +29,14 @@ class Setup {
 		}
 
 		$script_path       = '/build/index.js';
-		$script_asset_path = dirname( MAIN_PLUGIN_FILE ) . '/build/index.asset.php';
+		$script_asset_path = dirname( ARMADEFO_MAIN_PLUGIN_FILE ) . '/build/index.asset.php';
 		$script_asset      = file_exists( $script_asset_path )
 		? require $script_asset_path
 		: array(
 			'dependencies' => array(),
 			'version'      => filemtime( $script_path ),
 		);
-		$script_url        = plugins_url( $script_path, MAIN_PLUGIN_FILE );
+		$script_url        = plugins_url( $script_path, ARMADEFO_MAIN_PLUGIN_FILE );
 
 		wp_register_script(
 			'armada-delivery-for-woocommerce',
@@ -48,10 +48,10 @@ class Setup {
 
 		wp_register_style(
 			'armada-delivery-for-woocommerce',
-			plugins_url( '/build/index.css', MAIN_PLUGIN_FILE ),
+			plugins_url( '/build/index.css', ARMADEFO_MAIN_PLUGIN_FILE ),
 			// Add any dependencies styles may have, such as wp-components.
 			array(),
-			filemtime( dirname( MAIN_PLUGIN_FILE ) . '/build/index.css' )
+			filemtime( dirname( ARMADEFO_MAIN_PLUGIN_FILE ) . '/build/index.css' )
 		);
 
 		wp_enqueue_script( 'armada-delivery-for-woocommerce' );
@@ -72,10 +72,10 @@ class Setup {
 		// Register main plugin page with API settings
 		wc_admin_register_page(
 			array(
-				'id'       => 'armada_plugin',
+				'id'       => 'armadefo_plugin',
 				'title'    => __( 'Armada Plugin', 'armada-delivery-for-woocommerce' ),
 				'parent'   => 'woocommerce',
-				'path'     => '/armada-plugin',
+				'path'     => '/armadefo-plugin',
 				'nav_args' => array(
 					'order'  => 70,
 					'parent' => 'woocommerce',

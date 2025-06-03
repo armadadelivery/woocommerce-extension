@@ -1,6 +1,6 @@
 <?php
 
-namespace ArmadaPlugin\API;
+namespace ARMADEFO\API;
 
 /**
  * ArmadaPlugin API Client Class
@@ -27,7 +27,7 @@ class ApiClient {
 	 */
 	public function __construct() {
 		$this->api_base_url = 'https://api.armadadelivery.com';
-		$this->api_key = get_option('armada_plugin_api_key', '');
+		$this->api_key = get_option('armadefo_api_key', '');
 	}
 	
 	/**

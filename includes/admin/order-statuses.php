@@ -1,6 +1,6 @@
 <?php
 
-namespace ArmadaPlugin\Admin;
+namespace ARMADEFO\Admin;
 
 /**
  * ArmadaPlugin Order Statuses Class

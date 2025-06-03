@@ -1,6 +1,6 @@
 <?php
 
-namespace ArmadaPlugin\Admin;
+namespace ARMADEFO\Admin;
 
 /**
  * ArmadaPlugin API Settings Class
@@ -15,7 +15,7 @@ class ApiSettings {
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 		add_action( 'rest_api_init', array( $this, 'register_rest_settings' ) );
 		add_action( 'rest_api_init', array( $this, 'register_rest_routes' ) );
-		add_action( 'wp_ajax_update_armada_api_key', array( $this, 'ajax_update_api_key' ) );
+		add_action( 'wp_ajax_armadefo_update_api_key', array( $this, 'ajax_update_api_key' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ) );
 	}
 
@@ -30,7 +30,7 @@ class ApiSettings {
 			'armadaPluginSettings',
 			array(
 				'apiKey' => self::get_api_key(),
-				'nonce'  => wp_create_nonce( 'armada_plugin_api_nonce' ),
+				'nonce'  => wp_create_nonce( 'armadefo_api_nonce' ),
 			)
 		);
 	}
@@ -43,8 +43,8 @@ class ApiSettings {
 	public function register_settings() {
 		// Register the setting
 		register_setting(
-			'armada_plugin_api_settings',
-			'armada_plugin_api_key',
+			'armadefo_api_settings',
+			'armadefo_api_key',
 			array(
 				'type'              => 'string',
 				'description'       => __( 'Armada API Key', 'armada-delivery-for-woocommerce' ),
@@ -62,7 +62,7 @@ class ApiSettings {
 	public function register_rest_settings() {
 		register_setting(
 			'general',  // Use 'general' for WordPress core settings endpoint
-			'armada_plugin_api_key',
+			'armadefo_api_key',
 			array(
 				'type'              => 'string',
 				'description'       => __( 'Armada API Key', 'armada-delivery-for-woocommerce' ),
@@ -84,7 +84,7 @@ class ApiSettings {
 	 * @return string
 	 */
 	public static function get_api_key() {
-		return get_option( 'armada_plugin_api_key', '' );
+		return get_option( 'armadefo_api_key', '' );
 	}
 
 	/**
@@ -94,7 +94,7 @@ class ApiSettings {
 	 * @return bool
 	 */
 	public static function save_api_key( $api_key ) {
-		return update_option( 'armada_plugin_api_key', sanitize_text_field( $api_key ) );
+		return update_option( 'armadefo_api_key', sanitize_text_field( $api_key ) );
 	}
 
 	/**
@@ -104,7 +104,7 @@ class ApiSettings {
 	 */
 	public function register_rest_routes() {
 		register_rest_route(
-			'armada-plugin/v1',
+			'armadefo/v1',
 			'/api-key',
 			array(
 				'methods'             => 'GET',
@@ -116,7 +116,7 @@ class ApiSettings {
 		);
 
 		register_rest_route(
-			'armada-plugin/v1',
+			'armadefo/v1',
 			'/api-key',
 			array(
 				'methods'             => 'POST',
@@ -181,7 +181,7 @@ class ApiSettings {
 	 */
 	public function ajax_update_api_key() {
 		// Check nonce
-		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'armada_plugin_api_nonce' ) ) {
+		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'armadefo_api_nonce' ) ) {
 			wp_send_json_error( array( 'message' => __( 'Invalid nonce.', 'armada-delivery-for-woocommerce' ) ) );
 		}
 

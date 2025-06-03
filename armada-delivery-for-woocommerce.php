@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Armada Delivery For WooCommerce
- * Required Plugins: WooCommerce
+ * Required Plugins: woocommerce
  * Description: A WooCommerce extension that integrates with Armada Delivery service, allowing merchants to easily ship orders, track deliveries, and manage shipping information.
  * Version: 0.1.0
  * Author: Armada Tech Team
@@ -17,8 +17,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
-if ( ! defined( 'MAIN_PLUGIN_FILE' ) ) {
-	define( 'MAIN_PLUGIN_FILE', __FILE__ );
+if ( ! defined( 'ARMADEFO_MAIN_PLUGIN_FILE' ) ) {
+	define( 'ARMADEFO_MAIN_PLUGIN_FILE', __FILE__ );
 }
 
 require_once plugin_dir_path( __FILE__ ) . '/includes/admin/setup.php';
@@ -27,11 +27,11 @@ require_once plugin_dir_path( __FILE__ ) . '/includes/admin/order-actions.php';
 require_once plugin_dir_path( __FILE__ ) . '/includes/admin/order-statuses.php';
 require_once plugin_dir_path( __FILE__ ) . '/includes/api/api-client.php';
 
-use ArmadaPlugin\Admin\Setup;
-use ArmadaPlugin\Admin\ApiSettings;
-use ArmadaPlugin\Admin\OrderActions;
-use ArmadaPlugin\Admin\OrderStatuses;
-use ArmadaPlugin\API\ApiClient;
+use ARMADEFO\Admin\Setup;
+use ARMADEFO\Admin\ApiSettings;
+use ARMADEFO\Admin\OrderActions;
+use ARMADEFO\Admin\OrderStatuses;
+use ARMADEFO\API\ApiClient;
 
 // phpcs:disable WordPress.Files.FileName
 
@@ -40,34 +40,34 @@ use ArmadaPlugin\API\ApiClient;
  *
  * @since 0.1.0
  */
-function armada_plugin_missing_wc_notice() {
+function armadefo_missing_wc_notice() {
 	/* translators: %s WC download URL link. */
 	echo '<div class="error"><p><strong>' . sprintf( esc_html__( 'Armada Plugin requires WooCommerce to be installed and active. You can download %s here.', 'armada-delivery-for-woocommerce' ), '<a href="https://woo.com/" target="_blank">WooCommerce</a>' ) . '</strong></p></div>';
 }
 
-register_activation_hook( __FILE__, 'armada_plugin_activate' );
+register_activation_hook( __FILE__, 'armadefo_activate' );
 
 /**
  * Activation hook.
  *
  * @since 0.1.0
  */
-function armada_plugin_activate() {
+function armadefo_activate() {
 	if ( ! class_exists( 'WooCommerce' ) ) {
-		add_action( 'admin_notices', 'armada_plugin_missing_wc_notice' );
+		add_action( 'admin_notices', 'armadefo_missing_wc_notice' );
 		return;
 	}
 }
 
-if ( ! class_exists( 'Armada_Delivery_For_WooCommerce' ) ) :
+if ( ! class_exists( 'ARMADEFO_Main' ) ) :
 	/**
-	 * The Armada_Delivery_For_WooCommerce class.
+	 * The ARMADEFO_Main class.
 	 */
-	class Armada_Delivery_For_WooCommerce {
+	class ARMADEFO_Main {
 		/**
 		 * This class instance.
 		 *
-		 * @var \Armada_Delivery_For_WooCommerce single instance of this class.
+		 * @var \ARMADEFO_Main single instance of this class.
 		 */
 		private static $instance;
 
@@ -102,7 +102,7 @@ if ( ! class_exists( 'Armada_Delivery_For_WooCommerce' ) ) :
 		 *
 		 * Ensures only one instance can be loaded.
 		 *
-		 * @return \Armada_Delivery_For_WooCommerce
+		 * @return \ARMADEFO_Main
 		 */
 		public static function instance() {
 
@@ -115,20 +115,18 @@ if ( ! class_exists( 'Armada_Delivery_For_WooCommerce' ) ) :
 	}
 endif;
 
-add_action( 'plugins_loaded', 'armada_plugin_init', 10 );
+add_action( 'plugins_loaded', 'armadefo_init', 10 );
 
 /**
  * Initialize the plugin.
  *
  * @since 0.1.0
  */
-function armada_plugin_init() {
-	load_plugin_textdomain( 'armada-delivery-for-woocommerce', false, plugin_basename( dirname( __FILE__ ) ) . '/languages' );
-
+function armadefo_init() {
 	if ( ! class_exists( 'WooCommerce' ) ) {
-		add_action( 'admin_notices', 'armada_plugin_missing_wc_notice' );
+		add_action( 'admin_notices', 'armadefo_missing_wc_notice' );
 		return;
 	}
 
-	Armada_Delivery_For_WooCommerce::instance();
+	ARMADEFO_Main::instance();
 }

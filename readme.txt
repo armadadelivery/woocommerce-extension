@@ -1,5 +1,5 @@
 === Armada Delivery For WooCommerce ===
-Contributors: armadateam
+Contributors: hichomaa
 Tags: woocommerce, shipping, delivery, tracking, ecommerce
 Requires at least: 5.0
 Tested up to: 6.8
@@ -102,7 +102,38 @@ The plugin supports both Cash on Delivery (COD) and pre-paid orders.
 = 0.1.0 =
 Initial release of the Armada Delivery For WooCommerce plugin.
 
+== External Services ==
+
+This plugin connects to the Armada Delivery API to create and manage delivery requests for WooCommerce orders. The integration is essential for the plugin's core functionality of shipping orders and tracking deliveries.
+
+= Armada Delivery API =
+
+**What the service is and what it is used for:**
+The Armada Delivery API (https://api.armadadelivery.com) is used to create delivery requests, track shipments, and manage delivery information. This service enables the plugin to ship orders, generate QR codes for packages, provide real-time tracking, and retrieve driver information.
+
+**What data is sent and when:**
+The following data is sent to the Armada Delivery API when you click the "Ship" button on a WooCommerce order:
+* Platform information ("woocommerce")
+* Order ID/number
+* Customer name (first name + last name from shipping address)
+* Customer phone number (from shipping address)
+* Shipping address (first line)
+* Order total amount
+* Payment type (Cash on Delivery or pre-paid)
+
+Data is only sent when an administrator manually initiates shipping for an order through the WooCommerce admin panel.
+
+**Service provider and policies:**
+This service is provided by Armada Delivery. For more information about their data handling practices, please refer to:
+* Privacy Policy: https://www.armadadelivery.com/privacy-policy
+
+**Data security:**
+All communications with the Armada Delivery API are secured using HTTPS encryption and API key authentication.
+
 == Developer Resources ==
+
+= Source Code =
+* [GitHub Repository](https://github.com/armadadelivery/woocommerce-extension)
 
 = Prerequisites =
 * [NPM](https://www.npmjs.com/)

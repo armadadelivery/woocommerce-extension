@@ -75,7 +75,7 @@ class Setup {
 				'id'       => 'armadefo_plugin',
 				'title'    => __( 'Armada Plugin', 'armada-delivery-for-woocommerce' ),
 				'parent'   => 'woocommerce',
-				'path'     => '/armadefo-plugin',
+				'path'     => '/armada-plugin',
 				'nav_args' => array(
 					'order'  => 70,
 					'parent' => 'woocommerce',

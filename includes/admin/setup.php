@@ -72,11 +72,12 @@ class Setup {
 		// Register main plugin page with API settings
 		wc_admin_register_page(
 			array(
-				'id'       => 'armadefo_plugin',
-				'title'    => __( 'Armada Plugin', 'armada-delivery-for-woocommerce' ),
-				'parent'   => 'woocommerce',
-				'path'     => '/armada-plugin',
-				'nav_args' => array(
+				'id'         => 'armada_plugin',
+				'title'      => __( 'Armada Plugin', 'armada-delivery-for-woocommerce' ),
+				'parent'     => 'woocommerce',
+				'path'       => '/armada-plugin',
+				'capability' => 'manage_woocommerce', // Add capability check
+				'nav_args'   => array(
 					'order'  => 70,
 					'parent' => 'woocommerce',
 				),

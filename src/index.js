@@ -157,6 +157,7 @@ addFilter('woocommerce_admin_pages_list', 'armada-plugin', (pages) => {
 		container: MyExamplePage,
 		path: '/armada-plugin',
 		breadcrumbs: [__('Armada Plugin', 'armada-delivery-for-woocommerce')],
+		capability: 'manage_woocommerce', // Add capability check
 		navArgs: {
 			id: 'armada_plugin',
 			order: 70,

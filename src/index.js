@@ -26,11 +26,11 @@ const MyExamplePage = () => {
 		// First try to get the API key from the REST API settings endpoint
 		apiFetch({ path: '/wp/v2/settings' }).then((settings) => {
 			console.log('Settings from REST API:', settings);
-			if (settings && settings.armada_plugin_api_key) {
-				setApiKey(settings.armada_plugin_api_key);
+			if (settings && settings.armadefo_api_key) {
+				setApiKey(settings.armadefo_api_key);
 			} else {
 				// If not found in REST API, try to get it directly using our custom endpoint
-				return apiFetch({ path: '/wp-json/armada-plugin/v1/api-key' }).catch(() => {
+				return apiFetch({ path: '/wp-json/armadefo/v1/api-key' }).catch(() => {
 					// If custom endpoint fails, fallback to the option value
 					return { api_key: window.armadaPluginSettings?.apiKey || '' };
 				});
@@ -55,7 +55,7 @@ const MyExamplePage = () => {
 		apiFetch({
 			path: '/wp/v2/settings',
 			method: 'POST',
-			data: { armada_plugin_api_key: apiKey }
+			data: { armadefo_api_key: apiKey }
 		}).then((response) => {
 			console.log('Save response:', response);
 			setIsSaving(false);
@@ -65,11 +65,11 @@ const MyExamplePage = () => {
 			return apiFetch({ path: '/wp/v2/settings' });
 		}).then((settings) => {
 			console.log('Settings after save:', settings);
-			if (!settings || !settings.armada_plugin_api_key) {
+			if (!settings || !settings.armadefo_api_key) {
 				console.warn('API key not found in settings after save');
 				// If not found in the response, try to save using our custom endpoint
 				return apiFetch({
-					path: '/wp-json/armada-plugin/v1/api-key',
+					path: '/wp-json/armadefo/v1/api-key',
 					method: 'POST',
 					data: { api_key: apiKey }
 				}).catch(() => {
@@ -80,7 +80,7 @@ const MyExamplePage = () => {
 							'Content-Type': 'application/x-www-form-urlencoded',
 						},
 						body: new URLSearchParams({
-							action: 'update_armada_api_key',
+							action: 'armadefo_update_api_key',
 							api_key: apiKey,
 							nonce: window.armadaPluginSettings?.nonce || '',
 						}),

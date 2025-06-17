@@ -67,12 +67,7 @@ class ApiSettings {
 				'type'              => 'string',
 				'description'       => __( 'Armada API Key', 'armada-delivery-for-woocommerce' ),
 				'sanitize_callback' => 'sanitize_text_field',
-				'show_in_rest'      => array(
-					'schema' => array(
-						'type'        => 'string',
-						'description' => __( 'Armada API Key', 'armada-delivery-for-woocommerce' ),
-					),
-				),
+				'show_in_rest'      => true,  // Simplified to ensure it's accessible via REST API
 				'default'           => '',
 			)
 		);
